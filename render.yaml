@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: task_manager
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn task_manager.wsgi:application
+    envVars:
+      - key: DEBUG
+        value: false
+      - key: SECRET_KEY
+        generateValue: true

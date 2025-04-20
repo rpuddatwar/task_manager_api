@@ -1,0 +1,34 @@
+Project Structure
+task_manager/
+|-- task_manager/
+|   |-- settings.py
+|   |-- urls.py
+|   |-- wsgi.py
+|   |-- asgi.py
+|-- tasks/
+|   |-- models.py
+|   |-- views.py
+|   |-- urls.py
+|   |-- tests.py
+|-- users/
+|   |-- models.py
+|   |-- views.py
+|   |-- urls.py
+|   |-- tests.py
+|-- manage.py
+|-- requirements.txt
+
+
+
+
+|-- users/
+|   |-- static/               
+|   |   |-- css/
+|   |   |   |-- style.css      
+|   |-- templates/
+|   |   |-- blogs/
+|   |   |   |-- blogs.html
+|   |-- models.py
+|   |-- views.py
+|   |-- urls.py
+|   |-- tests.py

@@ -12,5 +12,5 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
         user_data = UserSerializer(self.user).data
-        data.update(user_data)  # Include user info in the token response
+        data.update(user_data) 
         return data

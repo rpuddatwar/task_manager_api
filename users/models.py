@@ -31,8 +31,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)  # Required for Django admin
-
+    is_staff = models.BooleanField(default=False)  
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

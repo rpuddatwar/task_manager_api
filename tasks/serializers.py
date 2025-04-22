@@ -32,9 +32,8 @@ class TaskSerializer(serializers.ModelSerializer):
         instance.assigned_by = validated_data.get('assigned_by', instance.assigned_by)
         instance.assigned_to = validated_data.get('assigned_to', instance.assigned_to)
 
-        # Check if the due date is in the past and update status accordingly
         if instance.due_date < timezone.now().date() and instance.status != 4:
-            instance.status = 4  # Mark the task as Overdue
+            instance.status = 4  
 
         instance.save()
         return instance

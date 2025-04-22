@@ -30,9 +30,9 @@ class TaskCreateAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class TaskPagination(PageNumberPagination):
-    page_size = 10  # Default number of tasks per page
+    page_size = 10  
     page_size_query_param = 'page_size'
-    max_page_size = 100  # Limit the maximum number of tasks per page
+    max_page_size = 100 
 
 class TaskListAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -43,17 +43,14 @@ class TaskListAPIView(APIView):
             Q(assigned_by=user) | Q(assigned_to=user)   
         )
 
-        # Filtering by status
         status_filter = request.query_params.get('status')
         if status_filter:
             tasks = tasks.filter(status=status_filter)
 
-        # Filtering by priority
         priority_filter = request.query_params.get('priority')
         if priority_filter:
             tasks = tasks.filter(priority=priority_filter)
 
-        # Filtering by due date (before or after)
         due_before = request.query_params.get('due_before')
         if due_before:
             tasks = tasks.filter(due_date__lte=due_before)
@@ -62,19 +59,16 @@ class TaskListAPIView(APIView):
         if due_after:
             tasks = tasks.filter(due_date__gte=due_after)
 
-        # Searching in title or description
         search_term = request.query_params.get('search')
         if search_term:
             tasks = tasks.filter(
                 Q(title__icontains=search_term) | Q(description__icontains=search_term)
             )
 
-        # Paginate the results
         paginator = TaskPagination()
         paginated_tasks = paginator.paginate_queryset(tasks, request)
         serializer = TaskSerializer(paginated_tasks, many=True)
 
-        # Return paginated response
         return paginator.get_paginated_response(serializer.data)
 
 
@@ -95,7 +89,6 @@ class TaskDetailAPIView(APIView):
         if not task:
             return Response({"error": "Task not found or permission denied."}, status=status.HTTP_404_NOT_FOUND)
         
-        # Update status if overdue
         if task.due_date < now().date() and task.status != 4:
             task.status = 4
             task.save()
@@ -114,7 +107,6 @@ class TaskDetailAPIView(APIView):
 
         serializer = TaskSerializer(task, data=request.data, partial=True, context={'request': request})
         if serializer.is_valid():
-            # Inject assigned_by manually since it's read-only in the serializer
             serializer.save(assigned_by=task.assigned_by)
             return Response(serializer.data)
 
